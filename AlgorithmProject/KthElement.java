@@ -40,7 +40,7 @@ public class KthElement {
      public static int kthRecursive(int[] A, int[] B, int k) {
         return helper(A, A.length, B, B.length, k);
     }
-      private static int helper(int[] A, int startA, int[] B, int startB, int k) {
+      private static int helper(int[] A, int m, int[] B, int n, int k) {
           
         // If first array is empty
         if (m == 0)
