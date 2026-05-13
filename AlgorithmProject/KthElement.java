@@ -38,35 +38,51 @@ public class KthElement {
 
     // Recursive
      public static int kthRecursive(int[] A, int[] B, int k) {
-        return helper(A, 0, B, 0, k);
+        return helper(A, A.length, B, B.length, k);
     }
       private static int helper(int[] A, int startA, int[] B, int startB, int k) {
+          
+        // If first array is empty
+        if (m == 0)
+            return B[k - 1];
 
-        if (startA >= A.length)
-            return B[startB + k - 1];
+        // If second array is empty
+        if (n == 0)
+            return A[k - 1];
 
-        if (startB >= B.length)
-            return A[startA + k - 1];
-
+        // Base case
         if (k == 1)
-            return Math.min(A[startA], B[startB]);
+            return Math.min(A[0], B[0]);
 
-        int midA = Integer.MAX_VALUE;
-        int midB = Integer.MAX_VALUE;
+        // Take k/2 elements
+        int i = Math.min(m, k / 2);
+        int j = Math.min(n, k / 2);
 
-        if (startA + k / 2 - 1 < A.length)
-            midA = A[startA + k / 2 - 1];
+        // Compare elements
+        if (A[i - 1] < B[j - 1]) {
 
-        if (startB + k / 2 - 1 < B.length)
-            midB = B[startB + k / 2 - 1];
-               if (midA < midB) {
-            return helper(A, startA + k / 2, B, startB, k - k / 2);
+            // Create new array after removing first i elements
+            int[] newA = new int[m - i];
+
+            for (int x = 0; x < m - i; x++) {
+                newA[x] = A[x + i];
+            }
+
+            return helper(newA, m - i, B, n, k - i);
+
         } else {
-            return helper(A, startA, B, startB + k / 2, k - k / 2);
+
+            // Create new array after removing first j elements
+            int[] newB = new int[n - j];
+
+            for (int x = 0; x < n - j; x++) {
+                newB[x] = B[x + j];
+            }
+
+            return helper(A, m, newB, n - j, k - j);
         }
     }
-      
-      
+
        // Function to check sorted array
        public static boolean isSorted(int[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
